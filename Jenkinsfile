@@ -24,7 +24,9 @@ pipeline {
          steps {
             echo 'Hi...changes detected now building'
             sh 'mvn --version'
-           // sh 'mvn clean package'
+            sh 'mvn clean package'
+            sh 'mkdir -p test11'
+            sh 'ls -la'
               
             }
         }
