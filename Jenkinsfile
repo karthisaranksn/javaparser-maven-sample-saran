@@ -30,6 +30,7 @@ pipeline{
         stage('Build Artifacts') {
             steps{
                 script{
+                    def unitstr= ""
                     if(params.UNITTEST){
                         unitstr= ""
                     }else{
