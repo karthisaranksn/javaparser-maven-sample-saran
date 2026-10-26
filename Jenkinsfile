@@ -2,12 +2,12 @@ pipeline{
     agent any
     environment{
         M2_HOME='/usr/share/maven'
-        PATH="${M2_HOME}/bin:${PATH}"
+        PATH="${env.M2_HOME}/bin:${env.PATH}"
         REPO_NAME='generic-local'
     }
     parameters{
-        booleanParam(name:'UNITTEST', defaultValue: 'true')
-        booleanParam(name:'CODEANALYSIS', defaultValue: 'true')
+        booleanParam(name:'UNITTEST', defaultValue: true)
+        booleanParam(name:'CODEANALYSIS', defaultValue: true)
     }
     triggers{
         githubPush()
