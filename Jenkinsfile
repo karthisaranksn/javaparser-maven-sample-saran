@@ -31,6 +31,9 @@ pipeline{
             }
         }
         stage('Build Artifacts') {
+            when{
+                environment name: 'BUILDME', value: 'yes'
+            }
             steps{
                 script{
                     def unitstr= ""
