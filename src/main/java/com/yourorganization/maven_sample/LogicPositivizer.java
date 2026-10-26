@@ -63,4 +63,4 @@ public class LogicPositivizer {
                         .resolve(Paths.get("output")));
     }
 }
-//adding lines to ckeck the precheck and post check in jenkins
+//adding lines to ckeck the precheck and post check in jenkins -for param code pipeline check
