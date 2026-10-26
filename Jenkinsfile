@@ -31,12 +31,12 @@ pipeline{
             steps{
                 script{
                     if(params.UNITTEST){
-                        unittr= ""
+                        unitstr= ""
                     }else{
-                        unittr= "-Dmaven.test.skip=true"
+                        unitstr= "-Dmaven.test.skip=true"
                     }
                     echo "build artifacts"
-                    sh "mvn clean package ${unittr}"
+                    sh "mvn clean package ${unitstr}"
                 }
             }
         }
