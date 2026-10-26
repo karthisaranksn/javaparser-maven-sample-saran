@@ -20,10 +20,13 @@ pipeline{
             }
         }
         stage('pre check') {
+            when{
+                changeset "src/main/**"
+            }
             steps{
                 script{
                     env.BUILDME='yes'
-                    echo "changes detected in src"
+                    echo "changes detected in src/main"
                 }
             }
         }
