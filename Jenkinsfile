@@ -1,31 +1,43 @@
 pipeline{
     agent any
-    triggers {
+    environment{
+        M2_HOME='/usr/share/maven'
+        PATH="${M2_HOME}/bin:${PATH}"
+        REPO_NAME='generic-local'
+    }
+    parameters{
+        booleanparam(name:'UNITTEST', defaultValue: 'true')
+        booleanparam(name:'CODEANALYSIS', defaultValue: 'true')
+    }
+    triggers{
         githubPush()
     }
     stages{
-        stage('clean workspace & checkout code') {
+        stage('clean workspace & checkout') {
             steps{
                 cleanWs()
                 checkout scm
             }
         }
         stage('pre check') {
-            when{
-                changeset "src/main/**"
-            }
             steps{
                 script{
                     env.BUILDME='yes'
-                    echo "changes detected in src/main"
+                    echo "changes detected in src"
                 }
             }
         }
-        stage('Build Java Project') {
-            when{environment name:'BUILDME', value:'yes'}
+        stage('Build Artifacts') {
             steps{
-                echo "changes detected now building the project"
-                sh 'mvn clean package'
+                script{
+                    if(params.UNITTEST){
+                        unittr= ""
+                    }else{
+                        unittr= "-Dmaven.test.skip=true"
+                    }
+                    echo "build artifacts"
+                    sh "mvn clean package ${unittr}"
+                }
             }
         }
     }
