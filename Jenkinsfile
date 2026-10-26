@@ -6,8 +6,8 @@ pipeline{
         REPO_NAME='generic-local'
     }
     parameters{
-        booleanparam(name:'UNITTEST', defaultValue: 'true')
-        booleanparam(name:'CODEANALYSIS', defaultValue: 'true')
+        booleanParam(name:'UNITTEST', defaultValue: 'true')
+        booleanParam(name:'CODEANALYSIS', defaultValue: 'true')
     }
     triggers{
         githubPush()
