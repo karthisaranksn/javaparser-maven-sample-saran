@@ -1,51 +1,38 @@
 pipeline{
     agent any
-    environment{
-        M2_HOME='/usr/share/maven'
-        PATH="${env.M2_HOME}/bin:${env.PATH}"
-        REPO_NAME='generic-local'
-    }
     parameters{
-        booleanParam(name:'UNITTEST', defaultValue: true)
-        booleanParam(name:'CODEANALYSIS', defaultValue: true)
+        string(name:'BRANCH_NAME',defaultValue: 'master')
+        choice(name:'BUILD_ENV',choices: ['super','staging','start'])
     }
-    triggers{
-        githubPush()
+    options{
+        timeout(time:30,unit:'MINUTES')
+        timestamps()
     }
     stages{
-        stage('clean workspace & checkout') {
+        stage('git checkout'){
             steps{
-                cleanWs()
-                checkout scm
+                git branch: "${params.BRANCH_NAME}", url: 'URL:https://github.com/karthisaranksn/javaparser-maven-sample-saran.git'
             }
         }
-        stage('pre check') {
-            when{
-                changeset "src/main/**"
-            }
+        stage('precheck') {
             steps{
-                script{
-                    env.BUILDME='yes'
-                    echo "changes detected in src/main"
-                }
+                echo "the pipeline is cuttently targetting: ${params.BUILD_ENV}"
             }
         }
-        stage('Build Artifacts') {
-            when{
-                environment name: 'BUILDME', value: 'yes'
-            }
+        stage('Build Maven') {
             steps{
-                script{
-                    def unitstr= ""
-                    if(params.UNITTEST){
-                        unitstr= ""
-                    }else{
-                        unitstr= "-Dmaven.test.skip=true"
-                    }
-                    echo "build artifacts"
-                    sh "mvn clean package ${unitstr}"
-                }
+                sh 'mvn --version'
+                sh 'mvn clean package'
             }
         }
     }
+    post{
+        success{
+            archiveArtifacts artifacts:'target/*.jar',fingerprint:true
+        }
+        failure{
+        cleanWs()
+        }
+    }
+
 }
