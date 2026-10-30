@@ -11,7 +11,7 @@ pipeline{
     stages{
         stage('git checkout'){
             steps{
-                git branch: "${params.BRANCH_NAME}", url: 'URL:https://github.com/karthisaranksn/javaparser-maven-sample-saran.git'
+                git branch: "${params.BRANCH_NAME}", url: 'https://github.com/karthisaranksn/javaparser-maven-sample-saran.git'
             }
         }
         stage('precheck') {
