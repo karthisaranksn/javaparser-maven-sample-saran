@@ -3,7 +3,7 @@ pipeline{
     stages{
         stage('git checkout') {
             steps{
-                git branch: 'master', url:'https://github.com/karthisaranksn/javaparser-maven-sample-saran.git'
+                git branch: 'doc', url:'https://github.com/karthisaranksn/javaparser-maven-sample-saran.git'
             }
         }
         stage('Build Docker Image') {
