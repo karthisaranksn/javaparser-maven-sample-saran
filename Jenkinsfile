@@ -7,7 +7,8 @@ pipeline{
             }
         }
         stage('Build Docker Image') {
-            steps{
+            steps{ 
+                sh 'docker --version'
                 sh 'docker build -t new-image:${BUILD_NUMBER} .'
             }
         }
