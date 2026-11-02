@@ -22,6 +22,7 @@ pipeline{
             steps{
                 sh 'docker run -d --name new-container new-image:${BUILD_NUMBER}'
                 sh 'docker ps'
+                sh 'docker inspect new-container'
                 }
         }
     }
