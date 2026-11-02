@@ -1,38 +1,20 @@
 pipeline{
-    agent any
-    parameters{
-        string(name:'BRANCH_NAME',defaultValue: 'master')
-        choice(name:'BUILD_ENV',choices: ['super','staging','start'])
-    }
-    options{
-        timeout(time:30,unit:'MINUTES')
-        timestamps()
-    }
+    agent{ label 'workernode'}
     stages{
-        stage('git checkout'){
+        stage('git checkout') {
             steps{
-                git branch: "${params.BRANCH_NAME}", url: 'https://github.com/karthisaranksn/javaparser-maven-sample-saran.git'
+                git branch: 'master', url:'https://github.com/karthisaranksn/javaparser-maven-sample-saran.git'
             }
         }
-        stage('precheck') {
+        stage('Build Docker Image') {
             steps{
-                echo "the pipeline is cuttently targetting: ${params.BUILD_ENV}"
+                sh 'docker build -t new-image:${BUILD_NUMBER} .'
             }
         }
-        stage('Build Maven') {
+        stage('verify Docker Image') {
             steps{
-                sh 'mvn --version'
-                sh 'mvn clean package'
+                sh 'docker images'
             }
         }
     }
-    post{
-        success{
-            archiveArtifacts artifacts:'target/*.jar',fingerprint:true
-        }
-        failure{
-        cleanWs()
-        }
-    }
-
 }
