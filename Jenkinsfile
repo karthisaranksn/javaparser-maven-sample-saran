@@ -20,7 +20,7 @@ pipeline{
         }
         stage('container creation') {
             steps{
-                sh 'docker run -d --name new-container-${BUILD_NUMBER} new-image:${BUILD_NUMBER}'
+                sh 'docker run -itd --name new-container-${BUILD_NUMBER} new-image:${BUILD_NUMBER}'
                 sh 'docker ps'
                 sh 'docker inspect new-container'
                 }
