@@ -3,6 +3,7 @@ pipeline{
     stages{
         stage('git checkout') {
             steps{
+                cleanWs()
                 git branch: 'doc', url:'https://github.com/karthisaranksn/javaparser-maven-sample-saran.git'
             }
         }
