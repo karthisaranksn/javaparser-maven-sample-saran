@@ -1,5 +1,5 @@
 pipeline{
-    agent{ label 'workernode'}
+    agent{ label 'worker-node'}
     stages{
         stage('git checkout') {
             steps{
